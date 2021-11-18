@@ -16,5 +16,13 @@
     crossorigin="anonymous"></script>
 <body>
     <p>Listagem</p>
+    <p>Ordem: {{ordem}}</p>
+    <ul>
+        {% for pessoa in pessoas %}
+            <li>ID: {{pessoa.id}} - Nome: {{pessoa.nome}} - Idade: {{pessoa.idade}} - Sexo:
+                {{pessoa.sexo}} - Salário: R$ {{pessoa.salario}}
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
