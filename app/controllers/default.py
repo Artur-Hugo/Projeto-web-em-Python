@@ -105,3 +105,55 @@ def salvar_edicao():
 
     pessoas = Pessoa.query.all()
     return render_template('listagem.html', pessoas=pessoas, ordem='id')
+
+@app.route('/delecao/<int:id>')
+def delecao(id=0):
+    pessoa = Pessoa.query.filter_by(id=id).first()
+    return render_template('delecao.html', pessoa=pessoa)
+
+@app.route('/salvar_delecao', methods=['POST'])
+def salvar_delecao():
+    Id = int(request.form.get('id'))
+
+    pessoa = Pessoa.query.filter_by(id=id).first()
+
+    db.session.delete(pessoa)
+    db.session.commit()
+
+    pessoas = Pessoa.query.all()
+    return render_template('listagem.html', pessoas=pessoas, ordem='id')
+
+@app.route('/graficos')
+def graficos():
+    pessoasM = Pessoa.query.filter_by(sexo='M').all()
+    pessoasF = Pessoa.query.filter_by(sexo='F').all()
+
+    salarioM = 0
+    for m in pessoasM:
+        salarioM += m.salario
+    if len(pessoasM) > 0:
+        salarioM = salarioM / len(pessoasM)
+
+    salarioF = 0
+    for f in pessoasF:
+        salarioF += f.salarioM
+    if len(pessoasF) > 0:
+        salarioF = salarioF / len(pessoasF)
+
+    
+    idadeM = 0
+    for m in pessoasM:
+        idadeM += m.idade
+    if len(pessoasM) > 0:
+        idadeM = idadeM / len(pessoasM)
+
+    idadeF = 0
+    for f in idadeF:
+        idadeF += f.idade
+    if len(pessoasF) > 0:
+        idadeF = idadeF / len(pessoasF)  
+
+    return render_template('graficos.html',
+                            salarioM=salarioM, salarioF=salarioF,
+                            idadeM=idadeM, idadeF=idadeF
+                            )
