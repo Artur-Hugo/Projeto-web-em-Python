@@ -62,3 +62,46 @@ def consulta():
         pessoas = Pessoa.query.all()
 
     return render_template('listagem.html', pessoas=pessoas, ordem='id')
+
+@app.route('/insercao')
+def insercao():
+    return render_template('insercao.html')
+
+@app.route('/salvar_insercao', method=['POST'])
+def salvar_insercao():
+    Nome = request.form.get('nome')
+    Idade = int(request.form.get('idade'))
+    Sexo = request.form.get('sexo')
+    Salario = float(request.form.get('salario'))
+
+    pessoa = Pessoa(Nome, Idade, Sexo, Salario)
+
+    db.session.add(pessoa)
+    db.session.commit()
+
+    pessoas = Pessoa.query.all()
+    return render_template('listagem.html', pessoas=pessoas, ordem='id')
+
+@app.route('/edicao/<int:id>')
+def edicao(id=0):
+    pessoa = Pessoa.query.filter_by(id=id).first()
+    return render_template('edicao.html', pessoa=pessoa)
+
+@app.route('/salvar_edicao', methods=['Post'])
+def salvar_edicao():
+    Id = int(request.form.get('id'))
+    Nome = request.form.get('nome')
+    Idade = int(request.form.get('idade'))
+    Sexo = request.form.get('sexo')
+    Salario = float(request.form.get('salario'))
+
+    pessoa = Pessoa.query.filter_by(id=id).first()
+
+    pessoa.nome = Nome
+    pessoa.idade = Idade
+    pessoa.sexo = Sexo
+    pessoa.salario = Salario
+    db.session.commit()
+
+    pessoas = Pessoa.query.all()
+    return render_template('listagem.html', pessoas=pessoas, ordem='id')
