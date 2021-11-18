@@ -5,9 +5,60 @@ from app.models.tables import Pessoa
 @app.route('/')
 @app.route('/listagem')
 def listagem():
-    lista_pessoas = [
-        {'id': 1, 'nome' : 'Fulano de tal', 'idade': 18, 'sexo': 'M', 'salario':2000},
-        {'id': 2, 'nome': 'Beotrano da Silva', 'idade': 19, 'sexo': 'M', 'salario':2500},
-        {'id': 3, 'nome': 'Fulana de tal', 'idade': 17, 'sexo':'F', 'salario': 2100}
-    ]   #Pessoa.query.all()
-    return render_template('listagem.html', pessoas=lista_pessoas, ordem='id')
+    pessoas  = Pessoa.query.all()
+    return render_template('listagem.html', pessoas=pessoas, ordem='id')
+
+@app.route('/selecao/<int:id>')
+def selecao(id=0):
+    pessoas = Pessoa.query.filter_by(id=id).all()
+    return render_template('listagem.html', pessoas=pessoas, ordem='id')
+
+@app.route('/ordenacao/<campo/<ordem_anterior>')
+def ordenacao(campo='id', ordem_anterior=''):
+    if campo == 'id':
+        if ordem_anterior == campo:
+            pessoas = Pessoa.query.order_by(Pessoa.id.desc()).all()
+        else:
+            pessoas = Pessoa.query.order_by(Pessoa.id).all()
+    elif campo == 'nome':
+        if ordem_anterior == campo:
+            pessoas = Pessoa.query.order_by(Pessoa.nome.desc()).all()
+        else:
+            pessoas = Pessoa.query.order_by(Pessoa.nome).all()
+    elif campo == 'idade':
+        if ordem_anterior == campo:
+            pessoas = Pessoa.query.order_by(Pessoa.idade.desc()).all()
+        else:
+            pessoas = Pessoa.query.order_by(Pessoa.idade).all()
+    elif campo == 'sexo':
+        if ordem_anterior == campo:
+            pessoas = Pessoa.query.order_by(Pessoa.sexo.desc()).all()
+        else:
+            pessoas = Pessoa.query.order_by(Pessoa.sexo).all()
+    elif campo == 'salario':
+        if ordem_anterior == campo:
+            pessoas = Pessoa.query.order_by(Pessoa.sexo.desc()).all()
+        else:
+            pessoas = Pessoa.query.order_by(Pessoa.sexo.all())
+    else:
+        pessoas = Pessoa.query.order_by(Pessoa.id).all()
+        
+    return render_template('listagem.html', pessoas=pessoas, ordem=campo)
+
+@app.route('/consulta', methods=['POST'])
+def consulta():
+    consulta = '%'+request.form.get('consulta')+'%'
+    campo = request.form.get('campo')
+
+    if campo == 'nome':
+        pessoas = Pessoa.query.filter(Pessoa.nome.like(consulta)).all()
+    elif campo == 'idade':
+        pessoas = Pessoa.query.filter(Pessoa.idade.like(consulta)).all()
+    elif campo == 'sexo':
+        pessoas = Pessoa.query.filter(Pessoa.sexo.like(consulta)).all()
+    elif campo == 'salario':
+        pessoas = Pessoa.query.filter(Pessoa.salario.like(consulta)).all()
+    else:
+        pessoas = Pessoa.query.all()
+
+    return render_template('listagem.html', pessoas=pessoas, ordem='id')
