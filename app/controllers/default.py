@@ -13,7 +13,7 @@ def selecao(id=0):
     pessoas = Pessoa.query.filter_by(id=id).all()
     return render_template('listagem.html', pessoas=pessoas, ordem='id')
 
-@app.route('/ordenacao/<campo/<ordem_anterior>')
+@app.route('/ordenacao/<campo>/<ordem_anterior>')
 def ordenacao(campo='id', ordem_anterior=''):
     if campo == 'id':
         if ordem_anterior == campo:
@@ -67,7 +67,7 @@ def consulta():
 def insercao():
     return render_template('insercao.html')
 
-@app.route('/salvar_insercao', method=['POST'])
+@app.route('/salvar_insercao', methods=['POST'])
 def salvar_insercao():
     Nome = request.form.get('nome')
     Idade = int(request.form.get('idade'))
