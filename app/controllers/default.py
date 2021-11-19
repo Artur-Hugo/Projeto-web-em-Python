@@ -136,7 +136,7 @@ def graficos():
 
     salarioF = 0
     for f in pessoasF:
-        salarioF += f.salarioM
+        salarioF += f.salario
     if len(pessoasF) > 0:
         salarioF = salarioF / len(pessoasF)
 
@@ -148,7 +148,7 @@ def graficos():
         idadeM = idadeM / len(pessoasM)
 
     idadeF = 0
-    for f in idadeF:
+    for f in pessoasF:
         idadeF += f.idade
     if len(pessoasF) > 0:
         idadeF = idadeF / len(pessoasF)  
