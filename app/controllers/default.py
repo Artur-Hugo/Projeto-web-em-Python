@@ -115,7 +115,7 @@ def delecao(id=0):
 def salvar_delecao():
     Id = int(request.form.get('id'))
 
-    pessoa = Pessoa.query.filter_by(id=id).first()
+    pessoa = Pessoa.query.filter_by(id=Id).first()
 
     db.session.delete(pessoa)
     db.session.commit()
