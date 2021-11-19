@@ -176,7 +176,7 @@ def restaurante():
 def data():
     if request.method == 'POST':
         file = request.form['upload-file']
-        data = pd.read_csv(r"C:\Users\artur\Downloads\05-templates\dados\Fast_Food_Restaurants_US.csv")
+        data = pd.read_csv(r"C:\Users\artur\Desktop\heroku\Consumir a API em python\app\Fast_Food_Restaurants_US.csv")
         return render_template('data.html', data=data.to_html())
    
     
