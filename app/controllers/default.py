@@ -95,7 +95,7 @@ def salvar_edicao():
     Sexo = request.form.get('sexo')
     Salario = float(request.form.get('salario'))
 
-    pessoa = Pessoa.query.filter_by(id=id).first()
+    pessoa = Pessoa.query.filter_by(id=Id).first()
 
     pessoa.nome = Nome
     pessoa.idade = Idade
