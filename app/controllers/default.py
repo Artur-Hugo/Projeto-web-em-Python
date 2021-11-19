@@ -1,6 +1,9 @@
 from flask import render_template, request
+from flask.helpers import send_file
 from app import app, db
 from app.models.tables import Pessoa
+
+
 
 @app.route('/')
 @app.route('/listagem')
@@ -157,3 +160,23 @@ def graficos():
                             salarioM=salarioM, salarioF=salarioF,
                             idadeM=idadeM, idadeF=idadeF
                             )
+
+
+
+import pandas as pd
+x = pd.read_csv(r"C:\Users\artur\Downloads\05-templates\dados\Fast_Food_Restaurants_US.csv")
+
+@app.route('/restaurante', methods=['GET', 'POST'])
+def restaurante():
+    return render_template('restaurantes.html')
+   
+
+
+@app.route('/data', methods=['GET', 'POST'])
+def data():
+    if request.method == 'POST':
+        file = request.form['upload-file']
+        data = pd.read_csv(r"C:\Users\artur\Downloads\05-templates\dados\Fast_Food_Restaurants_US.csv")
+        return render_template('data.html', data=data.to_html())
+   
+    
