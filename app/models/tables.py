@@ -17,3 +17,12 @@ class Pessoa(db.Model):
     
     def __repr__(self):
         return '<Pessoa %r>' % self.nome
+
+import pandas as pd
+
+class Restaurante():
+    __tablename__= 'restaurante'
+
+    x = pd.read_csv(r"C:\Users\artur\Downloads\05-templates\dados\Fast_Food_Restaurants_US.csv")
+
+    id = x['id']

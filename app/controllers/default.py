@@ -165,6 +165,7 @@ def graficos():
 
 import pandas as pd
 x = pd.read_csv(r"C:\Users\artur\Downloads\05-templates\dados\Fast_Food_Restaurants_US.csv")
+data = pd.read_csv(r"C:\Users\artur\Downloads\05-templates\dados\Fast_Food_Restaurants_US.csv")
 
 @app.route('/restaurante', methods=['GET', 'POST'])
 def restaurante():
@@ -174,9 +175,9 @@ def restaurante():
 
 @app.route('/data', methods=['GET', 'POST'])
 def data():
-    if request.method == 'POST':
-        file = request.form['upload-file']
-        data = pd.read_csv(r"C:\Users\artur\Downloads\05-templates\dados\Fast_Food_Restaurants_US.csv")
-        return render_template('data.html', data=data.to_html())
+
+    date = x['city'] [5] 
+        
+    return render_template('data.html', data=data)
    
     
